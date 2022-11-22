@@ -10,6 +10,7 @@
 
     <GetStationTimeTable :personalTravel="personalTravel" :selectStationOfLine="selectStationOfLine"/>
     <GetTravelTime :personalTravel="personalTravel"/>
+    <GetRoute :station="personalTravel.station" :passStation="personalTravel.passStation"/>
   </div>
 </template>
 <script>
@@ -18,23 +19,23 @@
   import GetLine from '@/components/GetLine.vue'
   import GetStationTimeTable from '@/components/GetStationTimeTable.vue'
   import GetTravelTime from '@/components/GetTravelTime.vue'
+  import GetRoute from '@/components/getRoute.vue'
   import{ ref } from  'vue'
   import {getStationOfLine} from '@/useCompositionAPI/useGetStationOfLine.js'
   import {getTravelTime} from '@/useCompositionAPI/useGetTravelTime.js'
   import {getLiveBoard} from '@/useCompositionAPI/useGetLiveBoard.js'
-  // import {getStationTimeTable} from '@/useCompositionAPI/useGetStationTimeTable.js'
 export default {
   components : {
     GetLine,
     GetStationTimeTable,
-    GetTravelTime
+    GetTravelTime,
+    GetRoute,
   },
   setup() {
     const selectStationOfLine = ref("2")
     const {stationOfLine} = getStationOfLine()
     const {TravelTime} = getTravelTime()
     const {LiveBoard} = getLiveBoard()
-    // const {StationTimeTable} = getStationTimeTable()
     const personalTravel = ref('')
     const searchHandler =((val) =>{
       personalTravel.value = {
@@ -42,7 +43,8 @@ export default {
                               arrivalStation : val[1],
                               direction : val[2],
                               passStation : val[3].value,
-                              isSearch    : val[4]
+                              isSearch    : val[4],
+                              station      : val[5]
                                                         }
     })
     return {stationOfLine,TravelTime,LiveBoard,selectStationOfLine,searchHandler,personalTravel}

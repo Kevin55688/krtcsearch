@@ -10,15 +10,12 @@
       <option :value="station" v-for="station in propsStation" :key="station">{{station}}</option>
     </select>
     <button @click="propsSearch" v-show="propsSelectStationOfLine <= 1">搜尋</button>
-    {{isSearch}}
   </div>
 </template>
 
 
 <script>
-import {toRefs, computed,ref} from 'vue';
-
-
+import {toRefs, computed,ref,watch} from 'vue';
 
 export default {
 name: "get-line" ,
@@ -44,7 +41,7 @@ setup (props, { emit }) {
     })
     const propsSearch = (()=> {
       isSearch.value = true
-      emit("personalTravel" , [propsDepartureStation, propsArrivalStation,direction,passStation,isSearch])
+      emit("personalTravel" , [propsDepartureStation, propsArrivalStation,direction,passStation,isSearch,propsStation])
     })
     const direction = computed(() => {
       if (propsSelectStationOfLine.value == "0") {
@@ -61,24 +58,18 @@ setup (props, { emit }) {
               arrivalStation   : propsStation.value.indexOf(propsArrivalStation.value),
                                                                                             }
     })
-
     const changeHandler = (() => {
       [propsDepartureStation.value,propsArrivalStation.value] = 
       [propsArrivalStation.value,propsDepartureStation.value]
     })
 
-    const isSearchHandler = computed(() => {
-      isSearchFalse()
-      return {
-                propsDepartureStation  : propsDepartureStation.value,
-                propsArrivalStation    : propsArrivalStation.value,
-                                                                        }
-    })
-
     const isSearchFalse = (() => {
       isSearch.value = false
     })
-  return {getProps,propsSelectStationOfLine,propsStation,propsDepartureStation,propsArrivalStation,propsSearch,direction,passStation,changeHandler,isSearch,isSearchHandler,isSearchFalse}
+    watch(() => [propsDepartureStation.value, propsArrivalStation.value] , () => {
+      isSearchFalse()
+    })
+  return {getProps,propsSelectStationOfLine,propsStation,propsDepartureStation,propsArrivalStation,propsSearch,direction,passStation,changeHandler,isSearch,isSearchFalse}
 }
 
 
@@ -86,4 +77,4 @@ setup (props, { emit }) {
 
 }
 
-</script>propsArrivalStation.value
+</script>

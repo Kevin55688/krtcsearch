@@ -1,6 +1,9 @@
 <template>
 <div>
-  <div v-for="time in getTimeTable" :key="time.Sequence" v-show="getProps.personalTravel.value.isSearch">{{time.ArrivalTime}}</div>
+  <div v-if="getProps.personalTravel.value.isSearch">
+    <div v-for="time in getTimeTable" :key="time.Sequence" >{{time.ArrivalTime}}</div>
+  </div>
+  {{getProps.personalTravel.value.isSearch}}
 </div>
 </template>
 
