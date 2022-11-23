@@ -1,5 +1,9 @@
 <template>
   <div>
+    <div class="estimateTime" v-if="getProps.personalTravel.value.isSearch">
+      <div class="title">預計乘車時間</div>
+      <span>{{estimateTime}}分鐘</span>
+    </div>
   </div>
 </template>
 

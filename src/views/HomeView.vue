@@ -1,16 +1,16 @@
 <template>
   <div class="home">
-    <select  v-model="selectStationOfLine">
-    <option  disabled="true" value="2">請選擇搭承路線</option>
-    <option value="0">橘線</option>
-    <option value="1">紅線</option>
-    </select>
-    <br>
+    <div class="selectLine">
+      <select  v-model="selectStationOfLine">
+        <option  disabled="true" value="2">請選擇搭乘路線</option>
+        <option value="0">橘線</option>
+        <option value="1">紅線</option>
+      </select>
+    </div>
     <GetLine :stationOfLine="stationOfLine" :selectStationOfLine="selectStationOfLine" @personalTravel="searchHandler"/>
-
-    <GetStationTimeTable :personalTravel="personalTravel" :selectStationOfLine="selectStationOfLine"/>
+    <GetRoute :station="personalTravel.station" :passStation="personalTravel.passStation" :departureStation="personalTravel.departureStation" :arrivalStation="personalTravel.arrivalStation" :isSearch="personalTravel.isSearch"/>
     <GetTravelTime :personalTravel="personalTravel"/>
-    <GetRoute :station="personalTravel.station" :passStation="personalTravel.passStation"/>
+    <GetStationTimeTable :personalTravel="personalTravel" :selectStationOfLine="selectStationOfLine"/>
   </div>
 </template>
 <script>
@@ -52,3 +52,26 @@ export default {
   },
 }
 </script>
+
+<style lang="scss" scoped>
+.home {
+  >.selectLine{
+    width: 100%;
+    margin: 30px 0 10px;
+    >select{
+      width: auto;
+      margin: 20px 0px;
+      padding: 0 20%;
+      font-size: 16px;
+      border: solid 3px gray;
+      border-radius: 10px;
+      >option{
+        text-align: center;
+        width: 100%;
+      }
+    }
+  }
+
+}
+
+</style>
