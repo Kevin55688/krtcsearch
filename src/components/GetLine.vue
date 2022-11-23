@@ -57,8 +57,14 @@ setup (props, { emit }) {
       }
     })
     const propsSearch = (()=> {
+      if (propsDepartureStation.value == 0 || propsArrivalStation.value== 0) {
+        alert("請選擇起始站及抵達站")
+        return 
+      } else {
       isSearch.value = true
       emit("personalTravel" , [propsDepartureStation, propsArrivalStation,direction,passStation,isSearch,propsStation])
+      }
+
     })
     const direction = computed(() => {
       if (propsSelectStationOfLine.value == "0") {
