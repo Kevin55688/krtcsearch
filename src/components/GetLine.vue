@@ -11,7 +11,7 @@
         </div>
       </div>
       <div class="selectStation-item">
-        <button @click="changeHandler"  ><img src="@/components/pic/istockphoto-1360180965-612x612.jpg"></button>
+        <button @click="changeHandler"  ><span>&lt;====></span></button>
       </div>
       <div class="selectStation-item">
         <div class="title">抵達</div>
@@ -123,19 +123,13 @@ setup (props, { emit }) {
         margin: 0;
         button{
           width: 100%;
+          height: 60px;
+          border-radius: 10px;
           border: none;
           background-color:transparent;
           &:active{
-            border: 1px solid gray;
-            border-radius: 10px;
+            border: solid 1px gray;
           }
-          
-        }
-        img{
-          width: 100%;
-          mix-blend-mode: multiply;
-          background-color:transparent;
-          object-fit: cover;
         }
         }
       >.title{

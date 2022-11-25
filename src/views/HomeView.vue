@@ -9,8 +9,8 @@
     </div>
     <GetLine :stationOfLine="stationOfLine" :selectStationOfLine="selectStationOfLine" @personalTravel="searchHandler"/>
     <GetRoute :station="personalTravel.station" :passStation="personalTravel.passStation" :departureStation="personalTravel.departureStation" :arrivalStation="personalTravel.arrivalStation" :isSearch="personalTravel.isSearch"/>
-    <GetTravelTime :personalTravel="personalTravel"/>
-    <GetStationTimeTable :personalTravel="personalTravel" :selectStationOfLine="selectStationOfLine"/>
+    <GetTravelTime :personalTravel="personalTravel" @estimateTime="estimateTimeHandler"/>
+    <GetStationTimeTable :personalTravel="personalTravel" :selectStationOfLine="selectStationOfLine" :estimateTime="estimateTime"/>
   </div>
 </template>
 <script>
@@ -37,6 +37,7 @@ export default {
     const {TravelTime} = getTravelTime()
     const {LiveBoard} = getLiveBoard()
     const personalTravel = ref('')
+    const estimateTime = ref('')
     const searchHandler =((val) =>{
       personalTravel.value = {
                               departureStation : val[0],
@@ -47,7 +48,10 @@ export default {
                               station      : val[5]
                                                         }
     })
-    return {stationOfLine,TravelTime,LiveBoard,selectStationOfLine,searchHandler,personalTravel}
+    const estimateTimeHandler = ((val) => {
+      estimateTime.value = val
+    })
+    return {stationOfLine,TravelTime,LiveBoard,selectStationOfLine,searchHandler,personalTravel,estimateTimeHandler,estimateTime}
     
   },
 }

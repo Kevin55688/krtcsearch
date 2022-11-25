@@ -36,6 +36,7 @@ text-shadow: -1px -1px 0 black,
               1px -1px 0 black,
               -1px 1px 0 black,
               1px 1px 0  black;
+z-index: 10;
 
 }
 </style>

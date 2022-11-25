@@ -11,12 +11,12 @@
 
 <script>
   import {getTravelTime} from '@/useCompositionAPI/useGetTravelTime.js'
-import { computed,toRefs } from 'vue'
+import { computed,toRefs,watch} from 'vue'
 
 export default {
   name: 'get-travel-time',
   props:["personalTravel"],
-  setup (props) {
+  setup (props ,{ emit }) {
     const {TravelTime} = getTravelTime()
     const getProps =  toRefs(props)
     const filterTravelTime = computed(() => {
@@ -44,19 +44,45 @@ export default {
     })
 
     const estimateTime = computed(() =>{
-      const maxNum = Math.max(getProps.personalTravel.value.passStation.arrivalStation,getProps.personalTravel.value.passStation.departureStation)
-      const minNum = Math.min(getProps.personalTravel.value.passStation.arrivalStation,getProps.personalTravel.value.passStation.departureStation)
+      let getTime
+      let departureStationStopTime
+      if (getProps.personalTravel.value.passStation.departureStation > getProps.personalTravel.value.passStation.arrivalStation) {
+        getTime = selectLineTravelTime.value.slice(selectLineTravelTime.value.length - getProps.personalTravel.value.passStation.departureStation , selectLineTravelTime.value.length - getProps.personalTravel.value.passStation.arrivalStation).map((item) => {
+          return item.RunTime - item.StopTime
+        }).reduce((a,b) => a+b)
 
+        departureStationStopTime = selectLineTravelTime.value.slice(selectLineTravelTime.value.length - getProps.personalTravel.value.passStation.departureStation , selectLineTravelTime.value.length - getProps.personalTravel.value.passStation.arrivalStation)[0].StopTime
+      } else {
+        getTime = selectLineTravelTime.value.slice(getProps.personalTravel.value.passStation.departureStation , getProps.personalTravel.value.passStation.arrivalStation).map((item) => {
+          return item.RunTime - item.StopTime
+        }).reduce((a,b) => a+b)
+        departureStationStopTime = selectLineTravelTime.value.slice(getProps.personalTravel.value.passStation.departureStation , getProps.personalTravel.value.passStation.arrivalStation)[0].StopTime
+      }
 
-      const getTime = selectLineTravelTime.value.slice(minNum, maxNum).map((item) => {
-        return item.RunTime - item.StopTime
-      }).reduce((a,b) =>a+b) + selectLineTravelTime.value[getProps.personalTravel.value.passStation.departureStation].StopTime 
-
-
-      return Math.ceil(getTime/60)
+      return Math.ceil((getTime + departureStationStopTime) / 60)
     })
-  
+      watch(() => getProps.personalTravel.value.passStation ,
+            () => {
+              emit("estimateTime" ,estimateTime.value)
+            })
+
     return {TravelTime,filterTravelTime,direction,getProps,selectLineTravelTime,estimateTime}
   }
 }
 </script>
+
+<style lang="scss" scoped>
+.estimateTime{
+  border-top: solid 1px gray;
+  border-bottom: solid 1px gray;
+  background-color: rgba(202, 193, 193, 0.119);
+  display: flex;
+  padding: 10px;
+  >span{
+    font-weight:bold;
+   margin-left: 10px;
+  }
+}
+
+
+</style>

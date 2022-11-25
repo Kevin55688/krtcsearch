@@ -7,16 +7,8 @@
           {{getProps.departureStation.value}}
         </div>
         <div class="route-item">
-          <!-- <div>
-            {{getRoute.length - 1 + '站 -'}}
-          </div>
-          <div class="passStation">
-            <div class="station" v-for="(station,index) in getRoute.slice(1 , -1)" :key="getRoute[index]">
-              {{station}}
-            </div>
-          </div> -->
           <span>
-            {{getRoute.length - 1 + '站 -'}}
+            {{getRoute.length - 1 + '站'}} <span v-if="getRoute.length - 1 > 1">  -- </span>
             <span class="station" v-for="(station,index) in getRoute.slice(1 , -1)" :key="getRoute[index]">
               {{station}}
             </span>
@@ -58,7 +50,7 @@ export default {
 .route{
   border-top: solid 1px gray;
   border-bottom: solid 1px gray;
-  margin:20px 0px;
+  margin:20px 0px 0px;
   background-color: rgba(61, 59, 59, 0.119);
   display: flex;
   flex-direction: column;
