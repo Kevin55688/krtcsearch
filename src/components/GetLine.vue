@@ -61,10 +61,10 @@ setup (props, { emit }) {
         alert("請選擇起始站及抵達站")
         return 
       } 
-      else if (propsDepartureStation.value == propsArrivalStation.value==) {
+      else if (propsDepartureStation.value == propsArrivalStation.value) {
         alert('請選擇不同的起始站及抵達站')
         return 
-      }
+      } 
       else {
       isSearch.value = true
       emit("personalTravel" , [propsDepartureStation, propsArrivalStation,direction,passStation,isSearch,propsStation])
